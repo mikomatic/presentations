@@ -112,7 +112,10 @@ mvn test
 
 ```java 
 // Mock network
-page.route("**/api", route -> route.fulfill(new Route.FulfillOptions().setStatus(200).setBody("Hello World!")));
+page.route("**/api", route -> route.fulfill(
+  new Route.FulfillOptions()
+  .setStatus(200)
+  .setBody("Hello World!")));
 
 page.navigate("https://example.com/api");
 
@@ -143,7 +146,8 @@ System.out.println(Base64.getEncoder().encode(buffer));
 context = browser.newContext(
         new Browser.NewContextOptions().
                     setRecordVideoDir(Paths.get("videos/")));
-// Make sure to close, so that videos are saved.context.close();
+// Make sure to close, so that videos are saved.
+context.close();
 ```
 </script></section><section data-markdown><script type="text/template">
 ```java
@@ -164,7 +168,10 @@ context.tracing().stop( new Tracing.StopOptions()
 ```
 
 <aside class="notes"><p><code>mvn exec:java -e &quot;-Dexec.mainClass=com.microsoft.playwright.CLI&quot; &quot;-Dexec.args=show-trace target/trace.zip&quot;</code></p>
-</aside></script></section></section></div>
+</aside></script></section></section><section  data-markdown><script type="text/template"># Reporting
+
+- En cours (typescript seulement)
+- Intégration avec Allure</script></section></div>
     </div>
 
     <script src="./dist/reveal.js"></script>
