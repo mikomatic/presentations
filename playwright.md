@@ -154,5 +154,48 @@ Note: Très utile pour
 
 ---
 ## Tracing > Screenshot + Vidéos
-mvn 
+
 ----
+
+```java
+page.screenshot(
+        new Page.ScreenshotOptions()
+                .setPath(Paths.get("screenshot.png")) 
+                .setFullPage(true));
+// ou
+byte[] buffer = page.screenshot();
+System.out.println(Base64.getEncoder().encode(buffer));
+```
+
+Note: On peut faire aussi un screenshot depuis un élément en fournissant un selecteur
+
+----
+
+```java
+context = browser.newContext(
+        new Browser.NewContextOptions().
+                    setRecordVideoDir(Paths.get("videos/")));
+// Make sure to close, so that videos are saved.context.close();
+```
+
+----
+
+```java
+Browser browser = browserType.launch();
+BrowserContext context = browser.newContext();
+
+// Start tracing before creating / navigating a page.
+context.tracing().start(new Tracing.StartOptions()  
+                    .setScreenshots(true)  
+                    .setSnapshots(true));
+
+Page page = context.newPage();
+// Do some testing/navigating
+
+// Stop tracing and export it into a zip archive.
+context.tracing().stop( new Tracing.StopOptions()
+        .setPath(Paths.get("trace.zip")));
+```
+
+Note: 
+`mvn exec:java -e "-Dexec.mainClass=com.microsoft.playwright.CLI" "-Dexec.args=show-trace target/trace.zip"`
