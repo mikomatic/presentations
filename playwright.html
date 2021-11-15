@@ -125,9 +125,46 @@ assertTrue(page.content().contains("Hello World!"));
 <li>Intercepter et simuler une réponse</li>
 <li>Cela peut aussi écouter les websockets</li>
 </ul>
-</aside></script></section><section  data-markdown><script type="text/template">## Tracing > Screenshot + Vidéos
-mvn 
-----</script></section></div>
+</aside></script></section><section ><section data-markdown><script type="text/template">## Tracing > Screenshot + Vidéos
+</script></section><section data-markdown><script type="text/template">
+```java
+page.screenshot(
+        new Page.ScreenshotOptions()
+                .setPath(Paths.get("screenshot.png")) 
+                .setFullPage(true));
+// ou
+byte[] buffer = page.screenshot();
+System.out.println(Base64.getEncoder().encode(buffer));
+```
+
+<aside class="notes"><p>On peut faire aussi un screenshot depuis un élément en fournissant un selecteur</p>
+</aside></script></section><section data-markdown><script type="text/template">
+```java
+context = browser.newContext(
+        new Browser.NewContextOptions().
+                    setRecordVideoDir(Paths.get("videos/")));
+// Make sure to close, so that videos are saved.context.close();
+```
+</script></section><section data-markdown><script type="text/template">
+```java
+Browser browser = browserType.launch();
+BrowserContext context = browser.newContext();
+
+// Start tracing before creating / navigating a page.
+context.tracing().start(new Tracing.StartOptions()  
+                    .setScreenshots(true)  
+                    .setSnapshots(true));
+
+Page page = context.newPage();
+// Do some testing/navigating
+
+// Stop tracing and export it into a zip archive.
+context.tracing().stop( new Tracing.StopOptions()
+        .setPath(Paths.get("trace.zip")));
+```
+
+<aside class="notes"><p><code>mvn exec:java -e &quot;-Dexec.mainClass=com.microsoft.playwright.CLI&quot; &quot;-Dexec.args=show-trace target/trace.zip&quot;</code></p>
+</aside></script></section></section></div>
     </div>
 
     <script src="./dist/reveal.js"></script>
