@@ -140,7 +140,10 @@ Network interception
 
 ```java 
 // Mock network
-page.route("**/api", route -> route.fulfill(new Route.FulfillOptions().setStatus(200).setBody("Hello World!")));
+page.route("**/api", route -> route.fulfill(
+  new Route.FulfillOptions()
+  .setStatus(200)
+  .setBody("Hello World!")));
 
 page.navigate("https://example.com/api");
 
@@ -175,7 +178,8 @@ Note: On peut faire aussi un screenshot depuis un élément en fournissant un se
 context = browser.newContext(
         new Browser.NewContextOptions().
                     setRecordVideoDir(Paths.get("videos/")));
-// Make sure to close, so that videos are saved.context.close();
+// Make sure to close, so that videos are saved.
+context.close();
 ```
 
 ----
@@ -199,3 +203,9 @@ context.tracing().stop( new Tracing.StopOptions()
 
 Note: 
 `mvn exec:java -e "-Dexec.mainClass=com.microsoft.playwright.CLI" "-Dexec.args=show-trace target/trace.zip"`
+
+---
+# Reporting
+
+- En cours (typescript seulement)
+- Intégration avec Allure
