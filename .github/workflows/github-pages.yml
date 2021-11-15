@@ -21,6 +21,8 @@ jobs:
       - name: Install and Build 🔧
         run: |
           npm install --no-optional reveal-md
+          mkdir build
+          touch build/.nojekyll
           ./node_modules/.bin/reveal-md . --static build
       - name: Deploy 🚀
         uses: JamesIves/github-pages-deploy-action@releases/v3
