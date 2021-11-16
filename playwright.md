@@ -209,3 +209,14 @@ Note:
 
 - En cours (typescript seulement)
 - Intégration avec Allure
+
+---
+Références:
+
+- Playwright:
+  - Repo: https://github.com/microsoft/playwright
+  - Docs: https://playwright.dev/java/
+
+- Autres:
+  - Slides: https://mikomatic.github.io/presentations/playwright.html#/
+  - Démo: https://github.com/mikomatic/playwright-demo
