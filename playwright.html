@@ -4,7 +4,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
 
-    <title>reveal-md</title>
+    <title>Nouvelle ère de tests E2E avec Playwright</title>
     <link rel="shortcut icon" href="./favicon.ico" />
     <link rel="stylesheet" href="./dist/reveal.css" />
     <link rel="stylesheet" href="./dist/theme/simple.css" id="theme" />
@@ -15,22 +15,33 @@
   </head>
   <body>
     <div class="reveal">
-      <div class="slides"><section  data-markdown><script type="text/template"># Nouvelle ère de tests E2E avec Playwright 
+      <div class="slides"><section  data-markdown><script type="text/template">
+# Nouvelle ère de tests E2E avec Playwright 
 
 🤖
+
 </script></section><section  data-markdown><script type="text/template">
+
 1. Intro
 2. Webdriver vs DevsTools 
 3. Playwright 
 4. Features 
 5. Démo 
-</script></section><section ><section data-markdown><script type="text/template">## Usecase
-</script></section><section data-markdown><script type="text/template">- Qualifier l'installation d'une application web
+
+</script></section><section ><section data-markdown><script type="text/template">
+## Usecase
+
+</script></section><section data-markdown><script type="text/template">
+- Qualifier l'installation d'une application web
   - Tests de non regression
   - Tests acceptance
 - Automatiser les "clicks button" sur les écrans
-</script></section></section><section ><section data-markdown><script type="text/template">## Webdriver
-</script></section><section data-markdown><script type="text/template">![web driver architecture](attachments/playwright_webdriver.svg) 
+
+</script></section></section><section ><section data-markdown><script type="text/template">
+## Webdriver
+
+</script></section><section data-markdown><script type="text/template">
+![web driver architecture](attachments/playwright_webdriver.svg) 
 
 * LE standard (W3C) <!-- .element: class="fragment" -->
 * Cross Browser <!-- .element: class="fragment" -->
@@ -38,55 +49,81 @@
 <aside class="notes"><p>Dans l&#39;achitecture classique, le client (node, java, autre) parle au navigateur par l&#39;intermédiaire du webdriver.</p>
 <p>Le webdriver interprète les requêtes et se charge de l&#39;envoyer au navigateur.
 C&#39;est à ce jour le standard le plus repandu et utilisé par de nombreux framework (cypress, fitness, robot)</p>
-</aside></script></section><section data-markdown><script type="text/template">Mais: 
+</aside></script></section><section data-markdown><script type="text/template">
+Mais: 
 - Client et Serveur peuvent se désynchroniser (⚠️timing / lenteurs)
 - Limitations du webdriver vs le navigateur
 
 _note perso: écrire des tests selenium est une galère..._
-</script></section></section><section ><section data-markdown><script type="text/template">## Devtools
-</script></section><section data-markdown><script type="text/template">![devtools architecture](attachments/playwright_devtools.svg) 
+
+</script></section></section><section ><section data-markdown><script type="text/template">
+## Devtools
+
+</script></section><section data-markdown><script type="text/template">
+![devtools architecture](attachments/playwright_devtools.svg) 
 
 - Pas de middle man <!-- .element: class="fragment" -->
 - Plus rapide et stable (?) <!-- .element: class="fragment" -->
 - "Limité" par le protocol: géolocation, mobile, network interception, ... <!-- .element: class="fragment" -->
 
 <aside class="notes"><p>tracing, audit, profiler ?</p>
-</aside></script></section><section data-markdown><script type="text/template">Mais:
+</aside></script></section><section data-markdown><script type="text/template">
+Mais:
 
 - Pas "encore" un standard (CDP = Chrome Dev Tools)
   - Tous les navigateurs ne l'implémente pas (ou pas de la même façon)
-</script></section></section><section ><section data-markdown><script type="text/template">## Playwright</script></section><section data-markdown><script type="text/template">- 1.O.O en 2020
+
+</script></section></section><section ><section data-markdown><script type="text/template">
+## Playwright
+</script></section><section data-markdown><script type="text/template">
+- 1.O.O en 2020
 - Développé par Microsoft : https://github.com/microsoft/playwright
   - Ancien équipe en charge de puppeteer <!-- .element: class="fragment" -->
 - Multi-language <!-- .element: class="fragment" -->
   - typescript principalement <!-- .element: class="fragment" -->
   - java, python, .Net <!-- .element: class="fragment" -->
 - Se base principalement sur le protocole DevTools <!-- .element: class="fragment" -->
+
 </script></section><section data-markdown><script type="text/template">
+
 - Gestion de scénarios avec multiples pages, domaines, iframe
 - Auto-wait sur les éléments avant d'éxecuter certaines actions (button, input)
 - Interception des appels réseaux pour mocker les résultats, voir rédiriger 
 - Emulation mobiles, geolocalisation, permissions
-</script></section><section data-markdown><script type="text/template">- Support de web components (shadow-dom compatible)
+
+</script></section><section data-markdown><script type="text/template">
+- Support de web components (shadow-dom compatible)
 - Support du upload / dowload de fichier
 - Screenshot, videos, tracing, recorder
+
 </script></section></section><section ><section data-markdown><script type="text/template">
-## Installation</script></section><section data-markdown><script type="text/template">```xml
+
+## Installation
+</script></section><section data-markdown><script type="text/template">
+```xml
  <dependency>
     <groupId>com.microsoft.playwright</groupId>
     <artifactId>playwright</artifactId>
     <version>${playwright.version}</version>
 </dependency>
 ```
-</script></section></section><section  data-markdown><script type="text/template">## Examples / Démos
-</script></section><section ><section data-markdown><script type="text/template">CodeGen
+
+</script></section></section><section  data-markdown><script type="text/template">
+## Examples / Démos
+
+</script></section><section ><section data-markdown><script type="text/template">
+CodeGen
 ```powershell
 mvn exec:java -e "-Dexec.mainClass=com.microsoft.playwright.CLI" "-Dexec.args=codegen https://google.com"
 ```
 - Ouvre un navigateur en mode privé
 - Enregistre tout ce que fait l'utilisateur
-- Génère le code correspondant 🔥</script></section><section data-markdown><script type="text/template">![codegen](attachments/playwright_recorder.JPG) <!-- .element height="60%" width="60%" -->
-</script></section></section><section ><section data-markdown><script type="text/template">Debug
+- Génère le code correspondant 🔥
+</script></section><section data-markdown><script type="text/template">
+![codegen](attachments/playwright_recorder.JPG) <!-- .element height="60%" width="60%" -->
+
+</script></section></section><section ><section data-markdown><script type="text/template">
+Debug
 ```java
 try (Playwright playwright = Playwright.create()) {
     ...
@@ -101,14 +138,20 @@ try (Playwright playwright = Playwright.create()) {
   page.navigate("https://www.google.com/");
 }
 ```
-</script></section><section data-markdown><script type="text/template">```powershell
+
+</script></section><section data-markdown><script type="text/template">
+```powershell
 set PLAYWRIGHT_JAVA_SRC=<java src root>
 set PWDEBUG=1
 mvn test
 ```
+
 </script></section><section data-markdown><script type="text/template">
+
 ![inspector](attachments/playwright_inspector.png) <!-- .element height="60%" width="60%" -->
-</script></section></section><section  data-markdown><script type="text/template">Network interception
+
+</script></section></section><section  data-markdown><script type="text/template">
+Network interception
 
 ```java 
 // Mock network
@@ -128,8 +171,11 @@ assertTrue(page.content().contains("Hello World!"));
 <li>Intercepter et simuler une réponse</li>
 <li>Cela peut aussi écouter les websockets</li>
 </ul>
-</aside></script></section><section ><section data-markdown><script type="text/template">## Tracing > Screenshot + Vidéos
+</aside></script></section><section ><section data-markdown><script type="text/template">
+## Tracing > Screenshot + Vidéos
+
 </script></section><section data-markdown><script type="text/template">
+
 ```java
 page.screenshot(
         new Page.ScreenshotOptions()
@@ -142,6 +188,7 @@ System.out.println(Base64.getEncoder().encode(buffer));
 
 <aside class="notes"><p>On peut faire aussi un screenshot depuis un élément en fournissant un selecteur</p>
 </aside></script></section><section data-markdown><script type="text/template">
+
 ```java
 context = browser.newContext(
         new Browser.NewContextOptions().
@@ -149,7 +196,9 @@ context = browser.newContext(
 // Make sure to close, so that videos are saved.
 context.close();
 ```
+
 </script></section><section data-markdown><script type="text/template">
+
 ```java
 Browser browser = browserType.launch();
 BrowserContext context = browser.newContext();
@@ -168,11 +217,14 @@ context.tracing().stop( new Tracing.StopOptions()
 ```
 
 <aside class="notes"><p><code>mvn exec:java -e &quot;-Dexec.mainClass=com.microsoft.playwright.CLI&quot; &quot;-Dexec.args=show-trace target/trace.zip&quot;</code></p>
-</aside></script></section></section><section  data-markdown><script type="text/template"># Reporting
+</aside></script></section></section><section  data-markdown><script type="text/template">
+# Reporting
 
 - En cours (typescript seulement)
 - Intégration avec Allure
-</script></section><section  data-markdown><script type="text/template">Références:
+
+</script></section><section  data-markdown><script type="text/template">
+Références:
 
 - Playwright:
   - Repo: https://github.com/microsoft/playwright
