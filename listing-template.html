@@ -55,17 +55,20 @@
         <table class="table is-fullwidth">
             <thead>
             <th>Titre</th>
-            <th>Desc.</th>
+            <th>Description</th>
             </thead>
             <tbody>
+            {{#files}}
             <tr>
-                <td>Playwright<br><span class="date">2021-11</span></td>
                 <td>
-                    <a href="playwright.html" title="Nouvelle ère de tests E2E avec Playwright">
-                        Nouvelle ère de tests E2E avec Playwright
+                    <a href="{{filePath}}" title="{{title}}">
+                        {{title}}
                     </a>
+                    <br><span class="date">{{date}}</span>
                 </td>
+                <td>{{description}}</td>
             </tr>
+            {{/files}}
             </tbody>
         </table>
     </div>

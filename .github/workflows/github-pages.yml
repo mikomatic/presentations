@@ -23,9 +23,7 @@ jobs:
           npm install --no-optional reveal-md
           mkdir build
           touch build/.nojekyll
-          ./node_modules/.bin/reveal-md . --static build
-          rm build/index.html
-          cp index.html build/index.html
+          ./node_modules/.bin/reveal-md . --static build --listing-template listing-template.html
       - name: Deploy 🚀
         uses: JamesIves/github-pages-deploy-action@releases/v3
         with:

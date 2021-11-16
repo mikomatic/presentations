@@ -1,8 +1,15 @@
+---
+title: Nouvelle ère de tests E2E avec Playwright
+description: Introduction au "nouveau" framework de test End to End
+date: 2021-11
+separator: <!--s-->
+verticalSeparator: <!--v-->
+---
 # Nouvelle ère de tests E2E avec Playwright 
 
 🤖
 
----
+<!--s-->
 
 1. Intro
 2. Webdriver vs DevsTools 
@@ -10,19 +17,19 @@
 4. Features 
 5. Démo 
 
----
+<!--s-->
 ## Usecase
 
-----
+<!--v-->
 - Qualifier l'installation d'une application web
   - Tests de non regression
   - Tests acceptance
 - Automatiser les "clicks button" sur les écrans
 
----
+<!--s-->
 ## Webdriver
 
-----
+<!--v-->
 ![web driver architecture](attachments/playwright_webdriver.svg) 
 
 * LE standard (W3C) <!-- .element: class="fragment" -->
@@ -33,17 +40,17 @@ Note: Dans l'achitecture classique, le client (node, java, autre) parle au navig
 Le webdriver interprète les requêtes et se charge de l'envoyer au navigateur.
 C'est à ce jour le standard le plus repandu et utilisé par de nombreux framework (cypress, fitness, robot)
 
-----
+<!--v-->
 Mais: 
 - Client et Serveur peuvent se désynchroniser (⚠️timing / lenteurs)
 - Limitations du webdriver vs le navigateur
 
 _note perso: écrire des tests selenium est une galère..._
 
----
+<!--s-->
 ## Devtools
 
-----
+<!--v-->
 ![devtools architecture](attachments/playwright_devtools.svg) 
 
 - Pas de middle man <!-- .element: class="fragment" -->
@@ -52,15 +59,15 @@ _note perso: écrire des tests selenium est une galère..._
 
 Note: tracing, audit, profiler ?
 
-----
+<!--v-->
 Mais:
 
 - Pas "encore" un standard (CDP = Chrome Dev Tools)
   - Tous les navigateurs ne l'implémente pas (ou pas de la même façon)
 
----
+<!--s-->
 ## Playwright
-----
+<!--v-->
 - 1.O.O en 2020
 - Développé par Microsoft : https://github.com/microsoft/playwright
   - Ancien équipe en charge de puppeteer <!-- .element: class="fragment" -->
@@ -69,22 +76,22 @@ Mais:
   - java, python, .Net <!-- .element: class="fragment" -->
 - Se base principalement sur le protocole DevTools <!-- .element: class="fragment" -->
 
-----
+<!--v-->
 
 - Gestion de scénarios avec multiples pages, domaines, iframe
 - Auto-wait sur les éléments avant d'éxecuter certaines actions (button, input)
 - Interception des appels réseaux pour mocker les résultats, voir rédiriger 
 - Emulation mobiles, geolocalisation, permissions
 
-----
+<!--v-->
 - Support de web components (shadow-dom compatible)
 - Support du upload / dowload de fichier
 - Screenshot, videos, tracing, recorder
 
----
+<!--s-->
 
 ## Installation
-----
+<!--v-->
 ```xml
  <dependency>
     <groupId>com.microsoft.playwright</groupId>
@@ -93,10 +100,10 @@ Mais:
 </dependency>
 ```
 
----
+<!--s-->
 ## Examples / Démos
 
----
+<!--s-->
 CodeGen
 ```powershell
 mvn exec:java -e "-Dexec.mainClass=com.microsoft.playwright.CLI" "-Dexec.args=codegen https://google.com"
@@ -104,10 +111,10 @@ mvn exec:java -e "-Dexec.mainClass=com.microsoft.playwright.CLI" "-Dexec.args=co
 - Ouvre un navigateur en mode privé
 - Enregistre tout ce que fait l'utilisateur
 - Génère le code correspondant 🔥
-----
+<!--v-->
 ![codegen](attachments/playwright_recorder.JPG) <!-- .element height="60%" width="60%" -->
 
----
+<!--s-->
 Debug
 ```java
 try (Playwright playwright = Playwright.create()) {
@@ -124,18 +131,18 @@ try (Playwright playwright = Playwright.create()) {
 }
 ```
 
-----
+<!--v-->
 ```powershell
 set PLAYWRIGHT_JAVA_SRC=<java src root>
 set PWDEBUG=1
 mvn test
 ```
 
-----
+<!--v-->
 
 ![inspector](attachments/playwright_inspector.png) <!-- .element height="60%" width="60%" -->
 
----
+<!--s-->
 Network interception
 
 ```java 
@@ -155,10 +162,10 @@ Note: Très utile pour
 - Intercepter et simuler une réponse
 - Cela peut aussi écouter les websockets
 
----
+<!--s-->
 ## Tracing > Screenshot + Vidéos
 
-----
+<!--v-->
 
 ```java
 page.screenshot(
@@ -172,7 +179,7 @@ System.out.println(Base64.getEncoder().encode(buffer));
 
 Note: On peut faire aussi un screenshot depuis un élément en fournissant un selecteur
 
-----
+<!--v-->
 
 ```java
 context = browser.newContext(
@@ -182,7 +189,7 @@ context = browser.newContext(
 context.close();
 ```
 
-----
+<!--v-->
 
 ```java
 Browser browser = browserType.launch();
@@ -204,13 +211,13 @@ context.tracing().stop( new Tracing.StopOptions()
 Note: 
 `mvn exec:java -e "-Dexec.mainClass=com.microsoft.playwright.CLI" "-Dexec.args=show-trace target/trace.zip"`
 
----
+<!--s-->
 # Reporting
 
 - En cours (typescript seulement)
 - Intégration avec Allure
 
----
+<!--s-->
 Références:
 
 - Playwright:
