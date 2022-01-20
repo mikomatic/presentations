@@ -1,32 +1,51 @@
-name: Build and Deploy
+name: GitHub Pages
+
 on:
   push:
-    branches: [main]
+    branches:
+      - master
 
 jobs:
-  build-and-deploy:
+  build:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout 🛎️
-        uses: actions/checkout@v2
+      - uses: actions/checkout@v2
+
+      - name: Detect Node version from .nvmrc
+        id: node_version
+        run: echo "::set-output name=nvmrc::$(cat .nvmrc)"
+
+      - name: Install Node.js
+        uses: actions/setup-node@v1
         with:
-          persist-credentials: false
-      - name: Cache node-modules 💽
-        uses: actions/cache@v2
-        env:
-          cache-name: cache-node-modules
+          node-version: ${{ steps.node_version.outputs.nvmrc }}
+
+      - uses: actions/cache@v1
         with:
           path: ~/.npm
-          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
-      - name: Install and Build 🔧
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+      - name: Install dependencies and Puppeteer
         run: |
-          npm install --no-optional reveal-md
-          mkdir build
-          touch build/.nojekyll
-          ./node_modules/.bin/reveal-md . --static build --listing-template listing-template.html
-      - name: Deploy 🚀
+          npm ci
+          sudo apt-get install libgbm-dev
+          npm i puppeteer --no-save
+      - name: Build Marp slide deck
+        run: |
+          CHROME_PATH=$(node .puppeteer.js) npm run build
+          touch ./dist/.nojekyll
+        env:
+          # Please update URL if you want to use custom domain
+          URL: https://${{ github.event.repository.owner.name }}.github.io/${{ github.event.repository.name }}
+
+          # Recommend to set lang for your deck to get better rendering for Open Graph image
+          LANG: en-US
+
+      - name: Deploy to GitHub pages
         uses: JamesIves/github-pages-deploy-action@releases/v3
         with:
+          ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           BRANCH: gh-pages
-          FOLDER: build
+          FOLDER: dist
