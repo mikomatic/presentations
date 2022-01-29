@@ -15,6 +15,8 @@ img[alt~="center"] {
 
 🤖
 
+_2021-11_
+
 ---
 # Sommaire
 

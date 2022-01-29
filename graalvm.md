@@ -16,6 +16,8 @@ img[alt~="center"] {
 
 ## 🏆
 
+_2019-01_
+
 ---
 # Sommaire
 
