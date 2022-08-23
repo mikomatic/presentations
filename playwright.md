@@ -27,16 +27,19 @@ _2021-11_
 5. Démo
 
 ---
-# Usecase
+# Cas d'usage: Tests End-to-end
 
 
-* Qualifier l'installation d'une application web
+* Qualifier le comportement d'une application d'un point de vue métier
   * Tests de non regression
   * Tests acceptance
-* Automatiser les "clicks button" sur les écrans
+* Tester différents sous-composants techniques ensembles
+* Automatisations diverses
+  * Initialisation des données
+  * web scraping
 
 ---
-## Webdriver
+## Selenium Webdriver
 
 
 ![width:1000px center](assets/playwright_webdriver.svg)
@@ -50,13 +53,11 @@ Le webdriver interprète les requêtes et se charge de l'envoyer au navigateur.
 C'est à ce jour le standard le plus repandu et utilisé par de nombreux framework (cypress, fitness, robot) -->
 
 ---
-## Webdriver - limitations
+## Selenium Webdriver - limitations
 
 Mais:
 - Client et Serveur peuvent se désynchroniser (⚠️timing / lenteurs)
-- Limitations du webdriver vs le navigateur
-
-_note perso: écrire des tests selenium est une galère..._
+- Limitations du webdriver vs capacités du navigateur
 
 ---
 ## Devtools
