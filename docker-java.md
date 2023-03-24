@@ -27,8 +27,8 @@ img[alt~="center"] {
 
 ![width:950px center](assets/docker-java/docker_build_flow.png)
 
-- Dockerfile
-- Installation Docker
+* Dockerfile
+* Installation Docker
 
 --- 
 ## Intro - Dockerfile
@@ -44,15 +44,25 @@ ENTRYPOINT ["java","-jar","/myMegaApp.jar"]
 
 - quid de la sécurité ?
 - quid du layering ?
-- options de la jvm ?
-
+- quid du versioning ?
 
 --- 
 ![bg left:65%](assets/docker-java/java_docker_layer_1.svg)
 
-- Chaque changement embarque tout (même si on a changé une ligne de code)
-- Coût network, disque, temps !
+<!--
+- Chaque commande dans notre Docker file correspond à un layer/couche
+- Chaque layer/couche est une image intermédiaire
+- Le but de cette notion et gagner en temps (pour construire une image, la publier) -->
 
+- Chaque version de l'image va générer une nouvelle couche
+- Sur la taille finale, une grosse majorité n'a pas bougé
+* Coût network, disque, temps !
+
+---
+
+![width:950px center](assets/docker-java/fat-jar-content-eo.svg)
+
+_le contenu de notre fat jar ne change presque pas, pourtant il va être copié encore et encore_
 
 --- 
 # Meilleure approche
@@ -83,27 +93,22 @@ CMD ["--some-args"]
 
 ---
 
-- Un bon Dockerfile, pas une mince affaire !
-- On a toujours besoin d'un env Docker (pénible des fois pour un env de CI/CD)
+## Un bon Dockerfile, pas une mince affaire !
 
-Du coup :
+_Finalement, je voudrais juste intégrer cela à mon build maven..._
 
-- Pas de panique l'outillage émerge :)
-- Exemple:
-  - Kaniko (dockerfile ☑, docker ⛔, _multi stacks_)
-  - JIB (dockerfile ⛔, docker ⛔, _java only_)
-  - Buildpacks, pack (dockerfile ⛔, docker ☑, _multi stacks_)
+* On a toujours besoin d'un env Docker (pénible des fois pour un env de CI/CD)
+* il nous reste cette histoire de versioning
 
 ---
 ## JIB
 
 ![width:950px center](assets/docker-java/jib_build_flow.png)
 
-- Pas besoin de docker
-- pas besoin de Dockerfile
-- Pas d'image locale, publication directe
-  - configurable
-- Plugin maven, gradle
+- pas besoin de docker ✅
+- pas (forcément) besoin d'un Dockerfile 🤔
+- pas d'image "locale", publication directe (configurable)
+- via maven 🚀🎉
 
 ---
 ## JIB Maven Plugin
@@ -118,7 +123,7 @@ Du coup :
         <version>3.2.1</version>
         <configuration>
           <to>
-            <image>myimage</image>
+            <image>custom.registry/my-app:${project.version}</image>
           </to>
         </configuration>
       </plugin>
@@ -126,6 +131,11 @@ Du coup :
   </build>
 </project>
 ```
+
+<!-- 
+- par défaut, une image jdk est utilisé
+- plein de customization (utilisateur, arguments de la JVM)
+-->
 
 ---
 ## JIB Maven Plugin
@@ -162,3 +172,21 @@ COPY src/main/jib /
 ENTRYPOINT ["java", jib.container.jvmFlags, "-cp", "/app/resources:/app/classes:/app/libs/*", jib.container.mainClass]
 CMD [jib.container.args]
 ```
+
+---
+
+### JIB, c'est bien :thumbsup:
+
+➕
+- construit une image Docker de qualité, sans docker
+- customizable à souhait
+- s'intègre dans votre outil de build préféré
+
+⚠️
+- vous aurez certainement besoin d'un Dockerfile pour votre image de base (certificats, spécificités client)
+
+---
+### References
+
+- don't put fat jar in docker images: https://phauer.com/2019/no-fat-jar-in-docker-image/
+- jib maven plugin: https://github.com/GoogleContainerTools/jib/tree/master/jib-maven-plugin 
